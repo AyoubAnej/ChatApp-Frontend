@@ -1,20 +1,32 @@
 import React, { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BiCommentDetail } from "react-icons/bi";
-import { BsFilter } from "react-icons/bs";
+import {
+  BsEmojiSmile,
+  BsFilter,
+  BsMicFill,
+  BsThreeDotsVertical,
+} from "react-icons/bs";
 import { TbCircleDashed } from "react-icons/tb";
 import ChatCard from "./chatCard/ChatCard";
+import MessageCard from "./messageCard/MessageCard";
+import { ImAttachment } from "react-icons/im";
+
+import "./HomePage.css";
 
 const HomePage = () => {
   const [queries, setQueries] = useState(null);
   const [currentChat, setCurrentChat] = useState(null);
+  const [content, setContent] = useState("");
 
-  const handleSearch = () => [];
+  const handleSearch = () => {};
   const handleClickOnChatCard = () => [setCurrentChat(true)];
+  const handleCreateMessage = () => {};
+
   return (
-    <div className="relative">
+    <div className="relative bg-[#9a79ed]">
       <div className="py-14 bg-[#3446eb] w-full"></div>
-      <div className="flex bg-[#f0f2f5] h-[94vh] absolute top-6 left-6 w-full">
+      <div className="flex bg-[#f0f2f5] h-[90vh] absolute top-[5vh] left-[2vw] w-[96vw]">
         <div className="left w-[30%] bg-[#e8e9ec] h-full">
           <div className="w-full">
             <div className="flex justify-between items-center p-3">
@@ -48,7 +60,7 @@ const HomePage = () => {
               </div>
             </div>
             {/* all users */}
-            <div className="bg-white overflow-y-scroll h-[76.8vh] px-3">
+            <div className="bg-white overflow-y-scroll h-[72vh] px-3">
               {queries &&
                 [1, 1, 1, 1, 1].map((item) => (
                   <div onClick={handleClickOnChatCard}>
@@ -78,10 +90,10 @@ const HomePage = () => {
         )}
         {/* message part */}
         {currentChat && (
-          <div>
-            <div>
-              <div>
-                <div>
+          <div className="w-[70%] relative bg-[#d3bce3]"> {/*background for chat*/}
+            <div className="header absolute top-0 w-full bg-[#f0f2f5]">
+              <div className="flex justify-between">
+                <div className="py-3 space-x-4 flex items-center px-3">
                   <img
                     className="w-10 h-10 rounded-full"
                     src="https://cdn.pixabay.com/photo/2024/03/20/06/18/ai-generated-8644732_1280.jpg"
@@ -89,6 +101,45 @@ const HomePage = () => {
                   />
                   <p>username</p>
                 </div>
+                <div className="py-3 flex space-x-4 items-center px-3">
+                  <AiOutlineSearch />
+                  <BsThreeDotsVertical />
+                </div>
+              </div>
+            </div>
+            {/* message section */}
+            <div className="px-10 h-[85vh] overflow-y-scroll">
+              {" "}
+              <div className="space-y-1 flex flex-col justify-center mt-20 py-2">
+                {[1, 1, 1, 1, 1].map((item, i) => (
+                  <MessageCard
+                    isReqUserMessage={i % 2 === 0}
+                    content="message"
+                  />
+                ))}
+              </div>
+            </div>
+            {/* footer part */}
+
+            <div className="footer bg-[#f0f2f5] absolute bottom-0 w-full py-3 text-2xl">
+              <div className="flex justify-between items-center px-5 relative">
+                <BsEmojiSmile className="cursor-pointer" />
+                <ImAttachment />
+
+                <input
+                  className="py-2 outline-none bg-white pl-4 rounded-md w-[85%]"
+                  type="text"
+                  onChange={(e) => setContent(e.target.value)}
+                  placeholder="Type your message"
+                  value={content}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleCreateMessage();
+                      setContent("");
+                    }
+                  }}
+                />
+                <BsMicFill />
               </div>
             </div>
           </div>
