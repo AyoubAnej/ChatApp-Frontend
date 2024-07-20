@@ -42,6 +42,10 @@ const HomePage = () => {
     setIsProfile(false);
   };
 
+  const handleCloseOpenCreateGroup = () => {
+    setIsGroup(!isGroup);
+  };
+
   const handleClick = (e) => {
     setAnchorEl(e.currentTarget);
   };
@@ -51,6 +55,7 @@ const HomePage = () => {
 
   const handleCreateGroup = () => {
     setIsGroup(true);
+    handleClose();
   };
 
   return (
@@ -60,7 +65,11 @@ const HomePage = () => {
         <div className="left w-[30%] bg-[#e8e9ec] h-full">
           {/* profile */}
 
-          {isGroup && <CreateGroup />}
+          {isGroup && (
+            <CreateGroup
+              handleCloseOpenCreateGroup={handleCloseOpenCreateGroup}
+            />
+          )}
           {isProfile && (
             <div className="w-full h-full">
               <Profile handleCloseOpenProfile={handleCloseOpenProfile} />
@@ -94,6 +103,7 @@ const HomePage = () => {
                     aria-haspopup="true"
                     aria-expanded={open ? "true" : undefined}
                     onClick={handleClick}
+                    className="cursor-pointer"
                   />
 
                   <Menu

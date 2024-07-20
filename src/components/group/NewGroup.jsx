@@ -1,6 +1,6 @@
 import { Button, CircularProgress } from "@mui/material";
 import React, { useState } from "react";
-import { BsArrowLeft, BsCheck, BsCheck2 } from "react-icons/bs";
+import { BsArrowLeft, BsCheck2 } from "react-icons/bs";
 
 const NewGroup = () => {
   const [isImageUpload, setIsImageUpload] = useState(false);

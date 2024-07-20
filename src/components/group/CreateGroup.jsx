@@ -4,7 +4,7 @@ import SelectedMember from "./SelectedMember";
 import ChatCard from "../chatCard/ChatCard";
 import NewGroup from "./NewGroup";
 
-const CreateGroup = () => {
+const CreateGroup = ({ handleCloseOpenCreateGroup }) => {
   const [newGroup, setNewGroup] = useState(false);
   const [query, setQuery] = useState("");
   const [groupMember, setGroupMember] = useState(new Set());
@@ -20,7 +20,10 @@ const CreateGroup = () => {
       {!newGroup && (
         <div>
           <div className="flex items-center space-x-10 bg-[#1e247e] text-white pt-16 px-10 pb-5">
-            <BsArrowLeft className="cursor-pointer text-2xl font-bold" />
+            <BsArrowLeft
+              className="cursor-pointer text-2xl font-bold"
+              onClick={handleCloseOpenCreateGroup}
+            />
             <p className="text-xl font-semibold">Add Group Participants</p>
           </div>
           <div className="relative bg-white py-4 px-3">
@@ -37,7 +40,7 @@ const CreateGroup = () => {
               type="text"
               onChange={(e) => {
                 handleSearch(e.target.value);
-                setQuery(e.target.value)
+                setQuery(e.target.value);
               }}
               className="outline-none border-b border-[#8888] p-2 w-[93%]"
               placeholder="Search user"
@@ -45,21 +48,29 @@ const CreateGroup = () => {
             />
           </div>
           <div className="bg-white overflow-y-scroll h-[50.2vh]">
-              {query && [1, 1, 1, 1, 1].map((item) => <div onClick={() => {
-                groupMember.add(item)
-                setGroupMember(groupMember)
-                setQuery("");
-              }}
-              key={item?.id}>
-                <hr />
-                <ChatCard />
-              </div>)}
+            {query &&
+              [1, 1, 1, 1, 1].map((item) => (
+                <div
+                  onClick={() => {
+                    groupMember.add(item);
+                    setGroupMember(groupMember);
+                    setQuery("");
+                  }}
+                  key={item?.id}
+                >
+                  <hr />
+                  <ChatCard />
+                </div>
+              ))}
           </div>
           <div className="flex bottom-10 py-10 bg-slate-200 items-center justify-center">
-            <div className="bg-green-600 rounded-full p-4 cursor-pointer" onClick={() => {
-                setNewGroup(true)
-            }}>
-                <BsArrowRight className="text-white font-semibold text-3xl" />
+            <div
+              className="bg-green-600 rounded-full p-4 cursor-pointer"
+              onClick={() => {
+                setNewGroup(true);
+              }}
+            >
+              <BsArrowRight className="text-white font-semibold text-3xl" />
             </div>
           </div>
         </div>
