@@ -35,7 +35,6 @@ const HomePage = () => {
   const handleClickOnChatCard = () => [setCurrentChat(true)];
   const handleCreateMessage = () => {};
   const handleNavigate = () => {
-    // navigate("/profile")
     setIsProfile(true);
   };
   const handleCloseOpenProfile = () => {
@@ -59,33 +58,30 @@ const HomePage = () => {
   };
 
   return (
-    <div className="relative bg-[#9a79ed]">
-      <div className="py-14 bg-[#3446eb] w-full"></div>
-      <div className="flex bg-[#f0f2f5] h-[90vh] absolute top-[5vh] left-[2vw] w-[96vw]">
-        <div className="left w-[30%] bg-[#e8e9ec] h-full">
-          {/* profile */}
-
+    <div className="relative bg-[#9a79ed] ">
+      <div className="py-14 bg-[#3446eb] w-full "></div>
+      <div className="flex bg-[#f0f2f5] h-[90vh] absolute top-[5vh] left-[2vw] w-[96vw] rounded-7px">
+        <div className="left w-[30%] bg-[#e8e9ec] h-full rounded-7px">
           {isGroup && (
             <CreateGroup
               handleCloseOpenCreateGroup={handleCloseOpenCreateGroup}
             />
           )}
           {isProfile && (
-            <div className="w-full h-full">
+            <div className="w-full h-full rounded-7px">
               <Profile handleCloseOpenProfile={handleCloseOpenProfile} />
             </div>
           )}
 
           {!isProfile && !isGroup && (
-            <div className="w-full">
-              {/* home */}
-              <div className="flex justify-between items-center p-3">
+            <div className="w-full rounded-7px">
+              <div className="flex justify-between items-center p-3 rounded-7px">
                 <div
                   onClick={handleNavigate}
                   className="flex items-center space-x-3"
                 >
                   <img
-                    className="rounded-full w-10 h-10 cursor-pointer"
+                    className="rounded-full w-10 h-10 cursor-pointer rounded-7px"
                     src="https://cdn.pixabay.com/photo/2023/06/29/10/33/lion-8096155_1280.png"
                     alt=""
                   />
@@ -123,7 +119,7 @@ const HomePage = () => {
                   </Menu>
                 </div>
               </div>
-              <div className="relative flex justify-center items-center bg-white py-4 px-3">
+              <div className="relative flex justify-center items-center bg-white py-4 px-3 rounded-7px">
                 <input
                   className="border-none outline-none bg-slate-200 rounded-md w-[93%] pl-9 py-2"
                   type="text"
@@ -139,8 +135,7 @@ const HomePage = () => {
                   <BsFilter className="ml-4 text-3xl" />
                 </div>
               </div>
-              {/* all users */}
-              <div className="bg-white overflow-y-scroll h-[72vh] px-3">
+              <div className="bg-white overflow-y-scroll h-[72vh] px-3 rounded-7px">
                 {queries &&
                   [1, 1, 1, 1, 1].map((item) => (
                     <div onClick={handleClickOnChatCard}>
@@ -153,62 +148,58 @@ const HomePage = () => {
             </div>
           )}
         </div>
-        {/* default chatapp page */}
         {!currentChat && (
-          <div className="w-[70%] flex flex-col items-center justify-center h-full">
-            <div className="max-w-[70%] text-center">
+          <div className="w-[70%] flex flex-col items-center justify-center h-full rounded-7px">
+            <div className="max-w-[70%] text-center rounded-7px">
               <img
                 src="https://cdn.pixabay.com/photo/2024/06/29/22/34/friends-8862092_1280.png"
                 alt=""
+                className="rounded-7px"
               />
-              <h1 className="text-4xl text-gray-600">ChatterWave Web</h1>
-              <p className="my-9">
+              <h1 className="text-4xl text-gray-600 rounded-7px">ChatterWave Web</h1>
+              <p className="my-9 rounded-7px">
                 send and recieve message without keeping your phone online. use
                 ChatterWave
               </p>
             </div>
           </div>
         )}
-        {/* message part */}
         {currentChat && (
-          <div className="w-[70%] relative bg-[#d3bce3]">
-            {" "}
-            {/*background for chat*/}
-            <div className="header absolute top-0 w-full bg-[#f0f2f5]">
+          <div className="w-[70%] relative bg-[#d3bce3] rounded-7px">
+            <div className="header absolute top-0 w-full bg-[#f0f2f5] rounded-7px">
               <div className="flex justify-between">
-                <div className="py-3 space-x-4 flex items-center px-3">
+                <div className="py-3 space-x-4 flex items-center px-3 rounded-7px">
                   <img
-                    className="w-10 h-10 rounded-full"
+                    className="w-10 h-10 rounded-full rounded-7px"
                     src="https://cdn.pixabay.com/photo/2024/03/20/06/18/ai-generated-8644732_1280.jpg"
                     alt=""
                   />
                   <p>username</p>
                 </div>
-                <div className="py-3 flex space-x-4 items-center px-3">
+                <div className="py-3 flex space-x-4 items-center px-3 rounded-7px">
                   <AiOutlineSearch />
                 </div>
               </div>
             </div>
-            {/* message section */}
-            <div className="px-10 h-[85vh] overflow-y-scroll">
-              {" "}
-              <div className="space-y-1 flex flex-col justify-center mt-20 py-2">
+            <div className="px-10 h-[85vh] overflow-y-scroll rounded-7px">
+              <div className="space-y-1 flex flex-col justify-center mt-20 py-2 rounded-7px">
                 {[1, 1, 1, 1, 1].map((item, i) => (
                   <MessageCard
                     isReqUserMessage={i % 2 === 0}
                     content="message"
+                    key={i}
+                    className="rounded-7px"
                   />
                 ))}
               </div>
             </div>
-            {/* footer part */}
-            <div className="footer bg-[#f0f2f5] absolute bottom-0 w-full py-3 text-2xl">
-              <div className="flex justify-between items-center px-5 relative">
+            <div className="footer bg-[#f0f2f5] absolute bottom-0 w-full py-3 text-2xl rounded-7px">
+              <div className="flex justify-between items-center px-5 relative rounded-7px">
                 <BsEmojiSmile className="cursor-pointer" />
                 <ImAttachment />
 
                 <input
-                  className="py-2 outline-none bg-white pl-4 rounded-md w-[85%]"
+                  className="py-2 outline-none bg-white pl-4 rounded-md w-[85%] rounded-7px"
                   type="text"
                   onChange={(e) => setContent(e.target.value)}
                   placeholder="Type your message"
