@@ -119,7 +119,7 @@ const HomePage = () => {
                   </Menu>
                 </div>
               </div>
-              <div className="relative flex justify-center items-center bg-white py-4 px-3 rounded-7px">
+              <div className="relative flex justify-center items-center bg-white py-4 px-3">
                 <input
                   className="border-none outline-none bg-slate-200 rounded-md w-[93%] pl-9 py-2"
                   type="text"
@@ -135,7 +135,7 @@ const HomePage = () => {
                   <BsFilter className="ml-4 text-3xl" />
                 </div>
               </div>
-              <div className="bg-white overflow-y-scroll h-[72vh] px-3 rounded-7px">
+              <div className="bg-white overflow-y-scroll h-[72vh] px-3 rounded-b-7px">
                 {queries &&
                   [1, 1, 1, 1, 1].map((item) => (
                     <div onClick={handleClickOnChatCard}>

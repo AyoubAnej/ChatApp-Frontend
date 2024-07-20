@@ -18,8 +18,8 @@ const Profile = ({ handleCloseOpenProfile }) => {
     setUsername(e.target.value);
   };
   return (
-    <div className="w-full h-full">
-      <div className="flex items-center space-x-10 bg-[#1e247e] text-white pt-16 px-10 pb-5">
+    <div className="w-full h-full rounded-container">
+      <div className="flex items-center space-x-10 bg-[#1e247e] text-white pt-16 px-10 pb-5 rounded-tl-[10px]">
         <BsArrowLeft
           className="cursor-pointer text-2xl font-bold"
           onClick={handleCloseOpenProfile}
