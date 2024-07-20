@@ -7,7 +7,7 @@ const NewGroup = () => {
   const [groupName, setGroupName] = useState("");
   return (
     <div className="w-full h-full">
-      <div className="flex items-center space-x-10 bg-[#3847cf] text-white pt-16 px-10 pb-5">
+      <div className="flex items-center space-x-10 bg-[#1e247e] text-white pt-16 px-10 pb-5 rounded-tl-[10px]">
         <BsArrowLeft className="cursor-pointer text-2xl font-bold" />
         <p className="text text-xl font-semibold">New Group</p>
       </div>
