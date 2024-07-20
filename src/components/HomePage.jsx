@@ -15,6 +15,8 @@ import { ImAttachment } from "react-icons/im";
 import "./HomePage.css";
 import { useNavigate } from "react-router-dom";
 import Profile from "./profile/Profile";
+import { Button, Menu, MenuItem } from "@mui/material";
+import CreateGroup from "./group/CreateGroup";
 
 const HomePage = () => {
   const [queries, setQueries] = useState(null);
@@ -22,7 +24,12 @@ const HomePage = () => {
   const [content, setContent] = useState("");
   const [isProfile, setIsProfile] = useState(false);
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
   const navigate = useNavigate();
+
+  const [isGroup, setIsGroup] = useState(false);
 
   const handleSearch = () => {};
   const handleClickOnChatCard = () => [setCurrentChat(true)];
@@ -35,19 +42,32 @@ const HomePage = () => {
     setIsProfile(false);
   };
 
+  const handleClick = (e) => {
+    setAnchorEl(e.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleCreateGroup = () => {
+    setIsGroup(true);
+  };
+
   return (
     <div className="relative bg-[#9a79ed]">
       <div className="py-14 bg-[#3446eb] w-full"></div>
       <div className="flex bg-[#f0f2f5] h-[90vh] absolute top-[5vh] left-[2vw] w-[96vw]">
         <div className="left w-[30%] bg-[#e8e9ec] h-full">
           {/* profile */}
+
+          {isGroup && <CreateGroup />}
           {isProfile && (
             <div className="w-full h-full">
               <Profile handleCloseOpenProfile={handleCloseOpenProfile} />
             </div>
           )}
 
-          {!isProfile && (
+          {!isProfile && !isGroup && (
             <div className="w-full">
               {/* home */}
               <div className="flex justify-between items-center p-3">
@@ -63,8 +83,34 @@ const HomePage = () => {
                   <p>username</p>
                 </div>
                 <div className="space-x-3 text-2xl flex">
-                  <TbCircleDashed className="cursor-pointer" onClick={() => navigate('/status')}/>
+                  <TbCircleDashed
+                    className="cursor-pointer"
+                    onClick={() => navigate("/status")}
+                  />
                   <BiCommentDetail />
+                  <BsThreeDotsVertical
+                    id="basic-button"
+                    aria-controls={open ? "basic-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                    onClick={handleClick}
+                  />
+
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                      "aria-labelledby": "basic-button",
+                    }}
+                  >
+                    <MenuItem onClick={handleClose}>Profile</MenuItem>
+                    <MenuItem onClick={handleCreateGroup}>
+                      Create Group
+                    </MenuItem>
+                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                  </Menu>
                 </div>
               </div>
               <div className="relative flex justify-center items-center bg-white py-4 px-3">
@@ -130,7 +176,6 @@ const HomePage = () => {
                 </div>
                 <div className="py-3 flex space-x-4 items-center px-3">
                   <AiOutlineSearch />
-                  <BsThreeDotsVertical />
                 </div>
               </div>
             </div>
