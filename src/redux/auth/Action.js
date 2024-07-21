@@ -1,5 +1,5 @@
 import { BASE_API_URI } from "../../config/api";
-import { LOGIN, REGISTER, REQ_USER } from "./ActionType";
+import { LOGIN, REGISTER, REQ_USER, SEARCH_USER } from "./ActionType";
 
 export const register = (data) => async (dispatch) => {
   try {
@@ -35,7 +35,7 @@ export const login = (data) => async (dispatch) => {
 
 export const currentUser = (token) => async (dispatch) => {
   try {
-    const res = await fetch(`${BASE_API_URI}/auth/signin`, {
+    const res = await fetch(`${BASE_API_URI}/users/profile`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -45,6 +45,26 @@ export const currentUser = (token) => async (dispatch) => {
     const resData = await res.json();
     console.log("register", resData);
     dispatch({ type: REQ_USER, payload: resData });
+  } catch (error) {
+    console.log("catch error ", error);
+  }
+};
+
+export const searchUser = (data) => async (dispatch) => {
+  try {
+    const res = await fetch(
+      `${BASE_API_URI}/users/search?/name=${data.keyword}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${data.token}`,
+        },
+      }
+    );
+    const resData = await res.json();
+    console.log("register", resData);
+    dispatch({ type: SEARCH_USER, payload: resData });
   } catch (error) {
     console.log("catch error ", error);
   }
