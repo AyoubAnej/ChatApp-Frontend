@@ -1,5 +1,11 @@
 import { BASE_API_URI } from "../../config/api";
-import { LOGIN, REGISTER, REQ_USER, SEARCH_USER } from "./ActionType";
+import {
+  LOGIN,
+  REGISTER,
+  REQ_USER,
+  SEARCH_USER,
+  UPDATE_USER,
+} from "./ActionType";
 
 export const register = (data) => async (dispatch) => {
   try {
@@ -13,7 +19,9 @@ export const register = (data) => async (dispatch) => {
     const resData = await res.json();
     console.log("register", resData);
     dispatch({ type: REGISTER, payload: resData });
-  } catch (error) {}
+  } catch (error) {
+    console.log("catch error ", error);
+  }
 };
 
 export const login = (data) => async (dispatch) => {
@@ -65,6 +73,23 @@ export const searchUser = (data) => async (dispatch) => {
     const resData = await res.json();
     console.log("register", resData);
     dispatch({ type: SEARCH_USER, payload: resData });
+  } catch (error) {
+    console.log("catch error ", error);
+  }
+};
+
+export const updateUser = (data) => async (dispatch) => {
+  try {
+    const res = await fetch(`${BASE_API_URI}/users/update/${data.id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${data.token}`,
+      },
+    });
+    const resData = await res.json();
+    console.log("register", resData);
+    dispatch({ type: UPDATE_USER, payload: resData });
   } catch (error) {
     console.log("catch error ", error);
   }
