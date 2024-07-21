@@ -24,6 +24,16 @@ const Signin = () => {
                 value={inputData.email}
               />
             </div>
+            <div>
+              <p className="mb-2">Password</p>
+              <input
+                type="password"
+                placeholder="Enter your password"
+                className="py-2 outline-green-600 w-full rounded-md border"
+                onChange={handleChange}
+                value={inputData.password}
+              />
+            </div>
           </form>
         </div>
       </div>
