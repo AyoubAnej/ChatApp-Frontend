@@ -17,6 +17,7 @@ export const register = (data) => async (dispatch) => {
       body: JSON.stringify(data),
     });
     const resData = await res.json();
+    if (resData.jwt) localStorage.setItem("token", resData.jwt);
     console.log("register", resData);
     dispatch({ type: REGISTER, payload: resData });
   } catch (error) {

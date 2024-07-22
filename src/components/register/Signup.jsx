@@ -1,6 +1,8 @@
 import { Alert, Button, Snackbar } from "@mui/material";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import  {register} from "../../redux/auth/Action"
 
 const Signup = () => {
   const [openSnackBar, setOpenSnackBar] = useState(false);
@@ -11,9 +13,12 @@ const Signup = () => {
     password: "",
   });
 
+  const dispatch = useDispatch();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("submitting", inputData);
+    dispatch(register(inputData))
     setOpenSnackBar(true);
   };
 
