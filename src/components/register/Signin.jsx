@@ -74,7 +74,7 @@ const Signin = () => {
           severity="success"
           sx={{ width: "100%" }}
         >
-          This is a success message
+          Login successfull!
         </Alert>
       </Snackbar>
     </div>
