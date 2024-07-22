@@ -1,17 +1,24 @@
-import { Button } from "@mui/material";
+import { Alert, Button, Snackbar } from "@mui/material";
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
+  const [openSnackBar, setOpenSnackBar] = useState(false);
   const navigate = useNavigate();
   const [inputData, setInputData] = useState({ email: "", password: "" });
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventdefault();
     console.log("submitting");
+    setOpenSnackBar(true);
   };
 
   const handleChange = () => {};
+
+  const handleSnackBarClose = () => {
+    setOpenSnackBar(false);
+  };
   return (
     <div>
       <div className="flex justify-center h-screen items-center">
@@ -37,14 +44,39 @@ const Signin = () => {
                 value={inputData.password}
               />
             </div>
-            <Button type="submit" sx={{bgcolor:"purple"}} className="w-full" variant="contained"> Sign In</Button>
+            <Button
+              type="submit"
+              sx={{ bgcolor: "purple", padding: ".5rem 0rem" }}
+              className="w-full"
+              variant="contained"
+            >
+              {" "}
+              Sign In
+            </Button>
           </form>
           <div className="flex space-x-3 items-center mt-5">
             <p className="m-0">Create New Account</p>
-            <Button variant="text" onClick={() => Navigate("/signup")}>Sign Up</Button>
+            <Button variant="text" onClick={() => navigate("/signup")}>
+              Sign Up
+            </Button>
           </div>
         </div>
       </div>
+      <Snackbar
+        open={openSnackBar}
+        autoHideDuration={6000}
+        onClose={handleSnackBarClose}
+        // message="Note archived"
+        // action={action}
+      >
+        <Alert
+          onClose={handleSnackBarClose}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          This is a success message
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
