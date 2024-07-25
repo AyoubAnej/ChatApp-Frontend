@@ -1,8 +1,9 @@
 import { Alert, Button, Snackbar } from "@mui/material";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import  {register} from "../../redux/auth/Action"
+import { store } from "../../redux/store";
 
 const Signup = () => {
   const [openSnackBar, setOpenSnackBar] = useState(false);
@@ -12,6 +13,10 @@ const Signup = () => {
     email: "",
     password: "",
   });
+
+  const {auth} = useSelector(store => store);
+
+  
 
   const dispatch = useDispatch();
 
