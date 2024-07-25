@@ -1,6 +1,7 @@
 import { BASE_API_URI } from "../../config/api";
 import {
   LOGIN,
+  LOGOUT,
   REGISTER,
   REQ_USER,
   SEARCH_USER,
@@ -100,7 +101,8 @@ export const updateUser = (data) => async (dispatch) => {
   }
 };
 
-export const handleLogout = () => async(dispatch) => {
+export const logoutAction = () => async (dispatch) => {
   localStorage.removeItem("token");
-  dispatch(type:LOGOUT,)
-}
+  dispatch({ type: LOGOUT, payload: null });
+  dispatch({ type: REQ_USER, payload: null });
+};

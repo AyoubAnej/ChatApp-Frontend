@@ -18,6 +18,7 @@ import Profile from "./profile/Profile";
 import { Button, Menu, MenuItem } from "@mui/material";
 import CreateGroup from "./group/CreateGroup";
 import { useDispatch } from "react-redux";
+import { logoutAction } from "../redux/auth/Action";
 
 const HomePage = () => {
   const [queries, setQueries] = useState(null);
@@ -62,8 +63,9 @@ const HomePage = () => {
   };
 
   const handleLogout = () => {
-    
+    dispatch(logoutAction());
   };
+  
 
   return (
     <div className="relative bg-[#9a79ed] ">
