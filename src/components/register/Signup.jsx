@@ -1,8 +1,8 @@
 import { Alert, Button, Snackbar } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import  {register} from "../../redux/auth/Action"
+import { currentUser, register } from "../../redux/auth/Action";
 import { store } from "../../redux/store";
 
 const Signup = () => {
@@ -14,16 +14,16 @@ const Signup = () => {
     password: "",
   });
 
-  const {auth} = useSelector(store => store);
+  const { auth } = useSelector((store) => store);
 
-  
+  const token = localStorage.getItem("token");
 
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("submitting", inputData);
-    dispatch(register(inputData))
+    dispatch(register(inputData));
     setOpenSnackBar(true);
   };
 
@@ -35,6 +35,16 @@ const Signup = () => {
   const handleSnackBarClose = () => {
     setOpenSnackBar(false);
   };
+
+  useEffect(() => {
+    if (token) dispatch(currentUser(token));
+  }, [token]);
+
+  useEffect(() => {
+    if (auth.reqUser?.full_name) {
+      navigate("/");
+    }
+  }, [auth.reqUser]);
 
   return (
     <div>
