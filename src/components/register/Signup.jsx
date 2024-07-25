@@ -13,12 +13,12 @@ const Signup = () => {
     email: "",
     password: "",
   });
-
   const { auth } = useSelector((store) => store);
-
   const token = localStorage.getItem("token");
 
   const dispatch = useDispatch();
+
+  // console.log("current user", auth.reqUser);
 
   const handleSubmit = (e) => {
     e.preventDefault();
