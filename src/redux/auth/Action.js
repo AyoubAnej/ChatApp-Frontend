@@ -99,3 +99,8 @@ export const updateUser = (data) => async (dispatch) => {
     console.log("catch error", error);
   }
 };
+
+export const handleLogout = () => async(dispatch) => {
+  localStorage.removeItem("token");
+  dispatch(type:LOGOUT,)
+}

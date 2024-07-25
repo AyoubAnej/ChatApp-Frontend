@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import Profile from "./profile/Profile";
 import { Button, Menu, MenuItem } from "@mui/material";
 import CreateGroup from "./group/CreateGroup";
+import { useDispatch } from "react-redux";
 
 const HomePage = () => {
   const [queries, setQueries] = useState(null);
@@ -25,6 +26,9 @@ const HomePage = () => {
   const [isProfile, setIsProfile] = useState(false);
 
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const dispatch = useDispatch();
+
   const open = Boolean(anchorEl);
 
   const navigate = useNavigate();
@@ -55,6 +59,10 @@ const HomePage = () => {
   const handleCreateGroup = () => {
     setIsGroup(true);
     handleClose();
+  };
+
+  const handleLogout = () => {
+    
   };
 
   return (
@@ -115,7 +123,7 @@ const HomePage = () => {
                     <MenuItem onClick={handleCreateGroup}>
                       Create Group
                     </MenuItem>
-                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
                   </Menu>
                 </div>
               </div>
@@ -156,7 +164,9 @@ const HomePage = () => {
                 alt=""
                 className="rounded-7px"
               />
-              <h1 className="text-4xl text-gray-600 rounded-7px">ChatterWave Web</h1>
+              <h1 className="text-4xl text-gray-600 rounded-7px">
+                ChatterWave Web
+              </h1>
               <p className="my-9 rounded-7px">
                 send and recieve message without keeping your phone online. use
                 ChatterWave
