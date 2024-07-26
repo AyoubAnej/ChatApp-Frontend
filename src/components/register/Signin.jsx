@@ -1,28 +1,46 @@
 import { Alert, Button, Snackbar } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { login } from "../../redux/auth/Action";
 
 const Signin = () => {
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const navigate = useNavigate();
   const [inputData, setInputData] = useState({ email: "", password: "" });
+  const dispatch = useDispatch();
+
+  const { auth } = useSelector((store) => store);
+  const token = localStorage.getItem("token");
 
   const handleSubmit = (e) => {
     e.preventdefault();
     console.log("submitting");
     setOpenSnackBar(true);
+    dispatch;
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInputData((values) => ({ ...values, [name]: value }));
+    dispatch(login(inputData));
   };
-  
 
   const handleSnackBarClose = () => {
     setOpenSnackBar(false);
   };
+
+  useEffect(() => {
+    if (token) dispatch(currentUser(token));
+  }, [token]);
+
+  useEffect(() => {
+    if (auth.reqUser?.full_name) {
+      navigate("/");
+    }
+  }, [auth.reqUser]);
+
   return (
     <div>
       <div className="flex justify-center h-screen items-center">
@@ -36,6 +54,7 @@ const Signin = () => {
                 className="py-2 outline-green-600 w-full rounded-md border"
                 onChange={handleChange}
                 value={inputData.email}
+                name="email"
               />
             </div>
             <div>
@@ -46,6 +65,7 @@ const Signin = () => {
                 className="py-2 outline-green-600 w-full rounded-md border"
                 onChange={handleChange}
                 value={inputData.password}
+                name="password"
               />
             </div>
             <Button
