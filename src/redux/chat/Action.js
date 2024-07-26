@@ -1,7 +1,7 @@
 import { BASE_API_URI } from "../../config/api";
 import { CREATE_CHAT, CREATE_GROUP, GET_USERS_CHAT } from "./ActionType";
 
-const createChat = (chatData) => async (dispatch) => {
+export const createChat = (chatData) => async (dispatch) => {
   try {
     const res = await fetch(`${BASE_API_URI}/api/chats/single`, {
       method: "POST",
@@ -19,7 +19,7 @@ const createChat = (chatData) => async (dispatch) => {
   }
 };
 
-const createGroupChat = (chatData) => async (dispatch) => {
+export const createGroupChat = (chatData) => async (dispatch) => {
   try {
     const res = await fetch(`${BASE_API_URI}/api/chats/group`, {
       method: "POST",
@@ -37,7 +37,7 @@ const createGroupChat = (chatData) => async (dispatch) => {
   }
 };
 
-const getUsersChat = (chatData) => async (dispatch) => {
+export const getUsersChat = (chatData) => async (dispatch) => {
   try {
     const res = await fetch(`${BASE_API_URI}/api/chats/users`, {
       method: "GET",
