@@ -1,5 +1,5 @@
 import { BASE_API_URI } from "../../config/api";
-import { CREATE_NEW_MESSAGE } from "./ActionType";
+import { CREATE_NEW_MESSAGE, GET_ALL_MESSAGE } from "./ActionType";
 
 export const createMessage = (messageData) => async (dispatch) => {
   try {
@@ -14,6 +14,26 @@ export const createMessage = (messageData) => async (dispatch) => {
     const data = await res.json();
     console.log("create new message", data);
     dispatch({ type: CREATE_NEW_MESSAGE, payload: data });
+  } catch (error) {
+    console.log("catch error", error);
+  }
+};
+
+export const getAllMessages = (reqData) => async (dispatch) => {
+  try {
+    const res = await fetch(
+      `${BASE_API_URI}/api/messages/chat/${reqData.chatId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${reqData.token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    console.log("get message", data);
+    dispatch({ type: GET_ALL_MESSAGE, payload: data });
   } catch (error) {
     console.log("catch error", error);
   }
