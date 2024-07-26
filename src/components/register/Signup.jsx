@@ -1,7 +1,8 @@
-import { Alert, Button, Snackbar } from "@mui/material";
+// src/components/Auth/Signup.jsx
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Alert, Button, Snackbar } from "@mui/material";
 import { currentUser, register } from "../../redux/auth/Action";
 import { store } from "../../redux/store";
 
@@ -13,18 +14,20 @@ const Signup = () => {
     email: "",
     password: "",
   });
+
   const { auth } = useSelector((store) => store);
   const token = localStorage.getItem("token");
-
   const dispatch = useDispatch();
 
-  // console.log("current user", auth.reqUser);
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("submitting", inputData);
-    dispatch(register(inputData));
-    setOpenSnackBar(true);
+    try {
+      await dispatch(register(inputData));
+      setOpenSnackBar(true);
+      navigate("/signin");
+    } catch (error) {
+      console.error("Signup failed:", error);
+    }
   };
 
   const handleChange = (e) => {
@@ -48,88 +51,74 @@ const Signup = () => {
 
   return (
     <div>
-      <div>
-        <div className="flex flex-col justify-center min-h-screen items-center">
-          <div className="w-[30%] p-10 shadow-md bg-white rounded-[10px]">
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div>
-                <p className="mb-2">Username</p>
-                <input
-                  type="text"
-                  className="py-2 px-3 outline-green-600 w-full rounded-md border-1"
-                  placeholder="Enter username"
-                  name="full_name"
-                  onChange={(e) => handleChange(e)}
-                  value={inputData.full_name}
-                />
-              </div>
-              <div>
-                <p className="mb-2">Email</p>
-                <input
-                  type="text"
-                  className="py-2 px-3 outline-green-600 w-full rounded-md border-1"
-                  placeholder="Enter your email"
-                  name="email"
-                  onChange={(e) => handleChange(e)}
-                  value={inputData.email}
-                />
-              </div>
-              <div>
-                <p className="mb-2">Password</p>
-                <input
-                  type="text"
-                  className="py-2 px-3 outline-green-600 w-full rounded-md border-1"
-                  placeholder="Enter your password"
-                  name="password"
-                  onChange={(e) => handleChange(e)}
-                  value={inputData.password}
-                />
-              </div>
-              <div>
-                <Button
-                  type="submit"
-                  sx={{ bgcolor: "purple", padding: ".5rem 0rem" }}
-                  className="w-full"
-                  variant="contained"
-                >
-                  {" "}
-                  Sign Up
-                </Button>
-              </div>
-              {/* <div>
-                <input
-                  type="submit"
-                  className="py-[0.7rem] px-3 w-full rounded-md bg-green-600 text-white mt-3"
-                  placeholder="Enter your password"
-                  value={"Signup"}
-                  readOnly
-                />
-              </div> */}
-            </form>
-            <div className="flex space-x-3 items-center mt-5">
-              <p className="">Already have an account?</p>
-              <Button variant="text" onClick={() => navigate("/signin")}>
-                Signin
+      <div className="flex flex-col justify-center min-h-screen items-center">
+        <div className="w-[30%] p-10 shadow-md bg-white rounded-[10px]">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <p className="mb-2">Username</p>
+              <input
+                type="text"
+                className="py-2 px-3 outline-green-600 w-full rounded-md border-1"
+                placeholder="Enter username"
+                name="full_name"
+                onChange={handleChange}
+                value={inputData.full_name}
+              />
+            </div>
+            <div>
+              <p className="mb-2">Email</p>
+              <input
+                type="text"
+                className="py-2 px-3 outline-green-600 w-full rounded-md border-1"
+                placeholder="Enter your email"
+                name="email"
+                onChange={handleChange}
+                value={inputData.email}
+              />
+            </div>
+            <div>
+              <p className="mb-2">Password</p>
+              <input
+                type="password"
+                className="py-2 px-3 outline-green-600 w-full rounded-md border-1"
+                placeholder="Enter your password"
+                name="password"
+                onChange={handleChange}
+                value={inputData.password}
+              />
+            </div>
+            <div>
+              <Button
+                type="submit"
+                sx={{ bgcolor: "purple", padding: ".5rem 0rem" }}
+                className="w-full"
+                variant="contained"
+              >
+                Sign Up
               </Button>
             </div>
+          </form>
+          <div className="flex space-x-3 items-center mt-5">
+            <p className="">Already have an account?</p>
+            <Button variant="text" onClick={() => navigate("/signin")}>
+              Signin
+            </Button>
           </div>
         </div>
-        <Snackbar
-          open={openSnackBar}
-          autoHideDuration={6000}
-          onClose={handleSnackBarClose}
-          // message="Note archived"
-          // action={action}
-        >
-          <Alert
-            onClose={handleSnackBarClose}
-            severity="success"
-            sx={{ width: "100%" }}
-          >
-            Your account is successfully created!
-          </Alert>
-        </Snackbar>
       </div>
+      <Snackbar
+        open={openSnackBar}
+        autoHideDuration={6000}
+        onClose={handleSnackBarClose}
+      >
+        <Alert
+          onClose={handleSnackBarClose}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Your account is successfully created!
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

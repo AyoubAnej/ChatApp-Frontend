@@ -37,11 +37,25 @@ export const login = (data) => async (dispatch) => {
       body: JSON.stringify(data),
     });
     const resData = await res.json();
-    console.log("login", resData); // Changed to "login"
-    if (resData.jwt) localStorage.setItem("token", resData.jwt);
-    dispatch({ type: LOGIN, payload: resData });
+    console.log("login", resData);
+    if (resData.jwt) {
+      localStorage.setItem("token", resData.jwt);
+      // Fetch user data immediately after successful login
+      const userRes = await fetch(`${BASE_API_URI}/api/users/profile`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${resData.jwt}`,
+        },
+      });
+      const userData = await userRes.json();
+      dispatch({ type: LOGIN, payload: userData });
+      dispatch({ type: REQ_USER, payload: userData });
+    }
+    return resData; // Return the response data
   } catch (error) {
     console.log("catch error", error);
+    throw error; // Rethrow the error so it can be caught in the component
   }
 };
 
@@ -76,7 +90,7 @@ export const searchUser = (data) => async (dispatch) => {
       }
     );
     const resData = await res.json();
-    console.log("search user", resData); // Changed to "search user"
+    console.log("search user", resData);
     dispatch({ type: SEARCH_USER, payload: resData });
   } catch (error) {
     console.log("catch error", error);
@@ -86,15 +100,15 @@ export const searchUser = (data) => async (dispatch) => {
 export const updateUser = (data) => async (dispatch) => {
   try {
     const res = await fetch(`${BASE_API_URI}/api/users/update/${data.id}`, {
-      method: "PUT", // Changed to PUT
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${data.token}`,
       },
-      body: JSON.stringify(data), // Add body if needed
+      body: JSON.stringify(data),
     });
     const resData = await res.json();
-    console.log("update user", resData); // Changed to "update user"
+    console.log("update user", resData);
     dispatch({ type: UPDATE_USER, payload: resData });
   } catch (error) {
     console.log("catch error", error);

@@ -19,7 +19,22 @@ const Signin = () => {
     e.preventDefault();
     console.log("submitting");
     setOpenSnackBar(true);
-    dispatch(login(inputData));
+    dispatch(login(inputData))
+      .then((resData) => {
+        if (resData.jwt) {
+          navigate("/");
+        } else {
+          // Handle login failure
+          console.log("Login failed");
+          setOpenSnackBar(false);
+          // You might want to show an error message to the user here
+        }
+      })
+      .catch((error) => {
+        console.error("Login error:", error);
+        setOpenSnackBar(false);
+        // Handle error, maybe show an error message to the user
+      });
   };
 
   const handleChange = (e) => {
