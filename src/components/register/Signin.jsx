@@ -3,28 +3,28 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../redux/auth/Action";
+import { currentUser, login } from "../../redux/auth/Action";
 
 const Signin = () => {
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const navigate = useNavigate();
   const [inputData, setInputData] = useState({ email: "", password: "" });
+
   const dispatch = useDispatch();
 
   const { auth } = useSelector((store) => store);
   const token = localStorage.getItem("token");
 
   const handleSubmit = (e) => {
-    e.preventdefault();
+    e.preventDefault();
     console.log("submitting");
     setOpenSnackBar(true);
-    dispatch;
+    dispatch(login(inputData));
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInputData((values) => ({ ...values, [name]: value }));
-    dispatch(login(inputData));
   };
 
   const handleSnackBarClose = () => {
@@ -33,13 +33,13 @@ const Signin = () => {
 
   useEffect(() => {
     if (token) dispatch(currentUser(token));
-  }, [token]);
+  }, [token, dispatch]);
 
   useEffect(() => {
     if (auth.reqUser?.full_name) {
       navigate("/");
     }
-  }, [auth.reqUser]);
+  }, [auth.reqUser, navigate]);
 
   return (
     <div>

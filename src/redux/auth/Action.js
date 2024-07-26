@@ -46,7 +46,7 @@ export const login = (data) => async (dispatch) => {
 };
 
 export const currentUser = (token) => async (dispatch) => {
-  console.log("current user action triggered ", token);
+  // console.log("current user action triggered ", token);
   try {
     const res = await fetch(`${BASE_API_URI}/api/users/profile`, {
       method: "GET",
