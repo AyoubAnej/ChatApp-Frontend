@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BiCommentDetail } from "react-icons/bi";
 import {
@@ -15,10 +15,11 @@ import { ImAttachment } from "react-icons/im";
 import "./HomePage.css";
 import { useNavigate } from "react-router-dom";
 import Profile from "./profile/Profile";
-import { Button, Menu, MenuItem } from "@mui/material";
+import { Menu, MenuItem } from "@mui/material";
 import CreateGroup from "./group/CreateGroup";
-import { useDispatch } from "react-redux";
-import { logoutAction } from "../redux/auth/Action";
+import { useDispatch, useSelector } from "react-redux";
+import { currentUser, logoutAction } from "../redux/auth/Action";
+import { store } from "../redux/store";
 
 const HomePage = () => {
   const [queries, setQueries] = useState(null);
@@ -28,7 +29,11 @@ const HomePage = () => {
 
   const [anchorEl, setAnchorEl] = useState(null);
 
+  const { auth } = useSelector((store) => store);
+
   const dispatch = useDispatch();
+
+  const token = localStorage.getItem("token");
 
   const open = Boolean(anchorEl);
 
@@ -64,8 +69,18 @@ const HomePage = () => {
 
   const handleLogout = () => {
     dispatch(logoutAction());
+    navigate("/signup");
   };
-  
+
+  useEffect(() => {
+    dispatch(currentUser(token));
+  }, [token]);
+
+  useEffect(() => {
+    if (!auth.reqUser) {
+      navigate("/signup");
+    }
+  }, [auth.reqUser]);
 
   return (
     <div className="relative bg-[#9a79ed] ">
