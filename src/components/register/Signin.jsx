@@ -14,7 +14,11 @@ const Signin = () => {
     setOpenSnackBar(true);
   };
 
-  const handleChange = () => {};
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInputData((values) => ({ ...values, [name]: value }));
+  };
+  
 
   const handleSnackBarClose = () => {
     setOpenSnackBar(false);
