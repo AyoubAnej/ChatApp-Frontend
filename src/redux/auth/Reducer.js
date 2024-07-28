@@ -10,6 +10,7 @@ import {
 const initialValue = {
   signup: null,
   signin: null,
+  reqUser: null,
 };
 export const authReducer = (store = initialValue, { type, payload }) => {
   if (type === REGISTER) {

@@ -48,7 +48,7 @@ export const getUsersChat = (chatData) => async (dispatch) => {
       body: JSON.stringify(chatData.data),
     });
     const data = await res.json();
-    console.log("get users chat", data);
+    console.log("users chat", data);
     dispatch({ type: GET_USERS_CHAT, payload: data });
   } catch (error) {
     console.log("catch error", error);

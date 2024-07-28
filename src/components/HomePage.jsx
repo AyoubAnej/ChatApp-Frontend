@@ -18,8 +18,9 @@ import Profile from "./profile/Profile";
 import { Menu, MenuItem } from "@mui/material";
 import CreateGroup from "./group/CreateGroup";
 import { useDispatch, useSelector } from "react-redux";
-import { currentUser, logoutAction } from "../redux/auth/Action";
+import { currentUser, logoutAction, searchUser } from "../redux/auth/Action";
 import { store } from "../redux/store";
+import { createChat, getUsersChat } from "../redux/chat/Action";
 
 const HomePage = () => {
   const [queries, setQueries] = useState(null);
@@ -28,8 +29,9 @@ const HomePage = () => {
   const [isProfile, setIsProfile] = useState(false);
 
   const [anchorEl, setAnchorEl] = useState(null);
+  const [isGroup, setIsGroup] = useState(false);
 
-  const { auth } = useSelector((store) => store);
+  const { auth, chat, message } = useSelector((store) => store);
 
   const dispatch = useDispatch();
 
@@ -39,11 +41,30 @@ const HomePage = () => {
 
   const navigate = useNavigate();
 
-  const [isGroup, setIsGroup] = useState(false);
+  const handleSearch = (keyword) => {
+    if (keyword.trim() !== "") {
+      dispatch(searchUser({ keyword, token }));
+    }
+  };
 
-  const handleSearch = () => {};
-  const handleClickOnChatCard = () => [setCurrentChat(true)];
+  // handleCreateChat = (userId) => {};
+
+  const handleClickOnChatCard = (userId) => {
+    // setCurrentChat(item);
+    // console.log(userId, "------", item);
+    dispatch(createChat({ token, data: { userId } }));
+  };
+
+  useEffect(() => {
+    dispatch(getUsersChat({ token }));
+  }, [chat.createChat, chat.CreateGroup]);
+
+  const handleCreateNewChat = () => {
+    console.log("create new message");
+  };
+
   const handleCreateMessage = () => {};
+
   const handleNavigate = () => {
     setIsProfile(true);
   };
@@ -110,7 +131,7 @@ const HomePage = () => {
                     src="https://cdn.pixabay.com/photo/2023/06/29/10/33/lion-8096155_1280.png"
                     alt=""
                   />
-                  <p>username</p>
+                  <p>{auth.reqUser?.fullName}</p>
                 </div>
                 <div className="space-x-3 text-2xl flex">
                   <TbCircleDashed
@@ -162,11 +183,11 @@ const HomePage = () => {
               </div>
               <div className="bg-white overflow-y-scroll h-[72vh] px-3 rounded-b-7px">
                 {queries &&
-                  [1, 1, 1, 1, 1].map((item) => (
-                    <div onClick={handleClickOnChatCard}>
+                  auth.searchUser?.map((item) => (
+                    <div onClick={() => handleClickOnChatCard(item.id)}>
                       {" "}
                       <hr />
-                      <ChatCard />
+                      <ChatCard key={item.id} item={item} />
                     </div>
                   ))}
               </div>
