@@ -19,6 +19,7 @@ import CreateGroup from "./group/CreateGroup";
 import { useDispatch, useSelector } from "react-redux";
 import { currentUser, logoutAction, searchUser } from "../redux/auth/Action";
 import { getUsersChat, createChat } from "../redux/chat/Action";
+import { createMessage } from "../redux/message/Action";
 
 const HomePage = () => {
   const [queries, setQueries] = useState("");
@@ -43,6 +44,21 @@ const HomePage = () => {
   const handleClickOnChatCard = (userId) => {
     const userIdInt = parseInt(userId, 10);
     dispatch(createChat({ token, data: { userId: userIdInt } }));
+    setQueries("");
+  };
+
+  const handleCurrentChat = (item) => {
+    setCurrentChat(item);
+  };
+  console.log("current chat is : ", currentChat);
+
+  const handleCreateMessage = () => {
+    dispatch(
+      createMessage({
+        token,
+        data: { chatId: currentChat.id, content: content },
+      })
+    );
   };
 
   useEffect(() => {
@@ -167,10 +183,7 @@ const HomePage = () => {
                   chat.chats.map((item) => {
                     if (item.group) {
                       return (
-                        <div
-                          key={item.id}
-                          onClick={() => handleClickOnChatCard(item.id)}
-                        >
+                        <div onClick={() => handleCurrentChat(item)}>
                           <hr />
                           <ChatCard
                             name={item.chatName || "Group Chat"} // Fallback for null chatName
@@ -189,7 +202,7 @@ const HomePage = () => {
                       return (
                         <div
                           key={item.id}
-                          onClick={() => handleClickOnChatCard(item.id)}
+                          onClick={() => handleCurrentChat(item)}
                         >
                           <hr />
                           <ChatCard
@@ -208,6 +221,15 @@ const HomePage = () => {
             </div>
           )}
         </div>
+
+        {/* Chat Box */}
+
+        {/* name={item.chatName || "Group Chat"} // Fallback for null chatName
+                            userImg={
+                              item.chatImage ||
+                              "https://cdn.pixabay.com/photo/2017/07/31/17/12/water-2559064_640.jpg"
+                            } */}
+
         {!currentChat && (
           <div className="w-[70%] flex flex-col items-center justify-center h-full rounded-7px">
             <div className="max-w-[70%] text-center rounded-7px">
@@ -233,10 +255,24 @@ const HomePage = () => {
                 <div className="py-3 space-x-4 flex items-center px-3 rounded-7px">
                   <img
                     className="w-10 h-10 rounded-full"
-                    src="https://cdn.pixabay.com/photo/2024/03/20/06/18/ai-generated-8644732_1280.jpg"
+                    src={
+                      currentChat.group
+                        ? currentChat.chatImage
+                        : auth.reqUser.id !== currentChat.users[0].id
+                        ? currentChat.users[0].profilePicture ||
+                          "https://cdn.pixabay.com/photo/2024/03/20/06/18/ai-generated-8644732_1280.jpg"
+                        : currentChat.users[1].profilePicture ||
+                          "https://cdn.pixabay.com/photo/2024/03/20/06/18/ai-generated-8644732_1280.jpg"
+                    }
                     alt="Chat"
                   />
-                  <p>username</p>
+                  <p>
+                    {currentChat.group
+                      ? currentChat.chatName
+                      : auth.reqUser?.id == currentChat.users[0].id
+                      ? currentChat.users[1].fullName
+                      : currentChat.users[0].fullName}
+                  </p>
                 </div>
                 <div className="py-3 flex space-x-4 items-center px-3 rounded-7px">
                   <AiOutlineSearch />
