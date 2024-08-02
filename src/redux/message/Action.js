@@ -31,10 +31,18 @@ export const getAllMessages = (reqData) => async (dispatch) => {
         },
       }
     );
+
+    if (!res.ok) {
+      // Log detailed error message
+      const errorData = await res.json();
+      console.error("Error fetching messages:", errorData);
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
     const data = await res.json();
-    console.log("get message", data);
+    console.log("All messages response:", data);
     dispatch({ type: GET_ALL_MESSAGE, payload: data });
   } catch (error) {
-    console.log("catch error", error);
+    console.error("Catch error fetching messages:", error);
   }
 };

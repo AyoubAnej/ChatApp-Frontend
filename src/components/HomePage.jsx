@@ -19,7 +19,7 @@ import CreateGroup from "./group/CreateGroup";
 import { useDispatch, useSelector } from "react-redux";
 import { currentUser, logoutAction, searchUser } from "../redux/auth/Action";
 import { getUsersChat, createChat } from "../redux/chat/Action";
-import { createMessage } from "../redux/message/Action";
+import { createMessage, getAllMessages } from "../redux/message/Action";
 
 const HomePage = () => {
   const [queries, setQueries] = useState("");
@@ -62,6 +62,10 @@ const HomePage = () => {
   };
 
   useEffect(() => {
+    dispatch(getAllMessages({ token, chatId: currentChat?.id }));
+  }, [currentChat, dispatch, token]);
+
+  useEffect(() => {
     if (token) {
       dispatch(getUsersChat({ token }));
       dispatch(currentUser(token));
@@ -90,7 +94,7 @@ const HomePage = () => {
           )}
           {!isProfile && !isGroup && (
             <div className="w-full rounded-7px">
-              <div className="flex justify-between items-center p-3 rounded-tl-lg">
+              <div className="flex justify-between items-center p-3 rounded-7px">
                 <div
                   onClick={() => setIsProfile(true)}
                   className="flex items-center space-x-3"
@@ -156,7 +160,7 @@ const HomePage = () => {
                   <BsFilter className="ml-4 text-3xl" />
                 </div>
               </div>
-              <div className="bg-white overflow-y-scroll h-[71.8vh] px-3 rounded-bl-lg">
+              <div className="bg-white overflow-y-scroll h-[72vh] px-3 rounded-b-7px">
                 {queries &&
                   auth.searchUser?.map((item) => {
                     if (item && item.fullName) {
@@ -250,7 +254,7 @@ const HomePage = () => {
         )}
         {currentChat && (
           <div className="w-[70%] relative bg-[#d3bce3] rounded-7px">
-            <div className="header absolute top-0 w-full bg-[#f0f2f5] rounded-tr-lg">
+            <div className="header absolute top-0 w-full bg-[#f0f2f5] rounded-7px">
               <div className="flex justify-between">
                 <div className="py-3 space-x-4 flex items-center px-3 rounded-7px">
                   <img
@@ -291,7 +295,7 @@ const HomePage = () => {
                 ))}
               </div>
             </div>
-            <div className="footer bg-[#f0f2f5] absolute bottom-0 w-full py-3 text-2xl rounded-br-lg">
+            <div className="footer bg-[#f0f2f5] absolute bottom-0 w-full py-3 text-2xl rounded-7px">
               <div className="flex justify-between items-center px-5 relative rounded-7px">
                 <BsEmojiSmile className="cursor-pointer" />
                 <ImAttachment />
